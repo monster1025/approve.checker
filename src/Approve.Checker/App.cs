@@ -50,6 +50,20 @@ public class App : IApp
         var mergeRequest = await _client.MergeRequests.GetAsync(_settings.ProjectId, mrId);
         var commit = await _client.Commits.GetAsync(_settings.ProjectId, mergeRequest.Sha);
 
+        var mrsToSameRelease = await _customClient.GetMergeRequestsByTargetBranch(mergeRequest.TargetBranch);
+        var sameMrs = mrsToSameRelease.Where(f => f.SourceBranch == mergeRequest.SourceBranch && 
+                                                  f.TargetBranch == mergeRequest.TargetBranch &&
+                                                  f.State == MergeRequestState.Merged).ToArray();
+        if (sameMrs.Any())
+        {
+            var mrUrls = string.Join("\r\n", sameMrs.Select(f=>f.WebUrl));
+            var message = $"Аналогичный MR ({sameMrs.First().WebUrl}) уже был одобрен и влит, автоматически одобряю текущий:\r\n{mrUrls}";
+
+            await _client.MergeRequests.CreateNoteAsync(mergeRequest.ProjectId, mergeRequest.Iid,
+                new CreateMergeRequestNoteRequest(message));
+            return 0;
+        }
+
         var isCodeFreezePeriod = _settings.ReleaseCodeFreeze != "true";
         var periodDescription = isCodeFreezePeriod ? "Code-Freeze. Restrictions may apply" : "Normal";
         Console.WriteLine($"Current period is {periodDescription}.");
