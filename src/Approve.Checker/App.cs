@@ -64,12 +64,16 @@ public class App : IApp
             return 0;
         }
 
-        var isCodeFreezePeriod = _settings.ReleaseCodeFreeze != "true";
+        var isCodeFreezePeriod = _settings.ReleaseCodeFreeze == "true";
         var periodDescription = isCodeFreezePeriod ? "Code-Freeze. Restrictions may apply" : "Normal";
         Console.WriteLine($"Current period is {periodDescription}.");
 
-        approversDict = FilterApprovers(approversDict, isCodeFreezePeriod);
-        if (!await IsApproved(mergeRequest, commit, approversDict))
+        var filtered = FilterApprovers(approversDict, isCodeFreezePeriod);
+        if (!filtered.Any() && isCodeFreezePeriod)
+        {
+            filtered = FilterApprovers(approversDict, false);
+        }
+        if (!await IsApproved(mergeRequest, commit, filtered))
         {
             return -1;
         }
