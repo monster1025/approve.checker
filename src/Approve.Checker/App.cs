@@ -39,11 +39,23 @@ public class App : IApp
             Console.WriteLine("Not in MergeRequest. Exiting.");
             return 0;
         }
+        var approversDict = ParseApprovers();
+        if (approversDict is null)
+        {
+            return -1;
+        }
+
         var mrId = int.Parse(_settings.MrPath.Split('!')[1]);
         
         var mergeRequest = await _client.MergeRequests.GetAsync(_settings.ProjectId, mrId);
         var commit = await _client.Commits.GetAsync(_settings.ProjectId, mergeRequest.Sha);
-        if (!await IsApproved(mergeRequest, commit))
+
+        var isCodeFreezePeriod = _settings.ReleaseCodeFreeze != "true";
+        var periodDescription = isCodeFreezePeriod ? "Code-Freeze. Restrictions may apply" : "Normal";
+        Console.WriteLine($"Current period is {periodDescription}.");
+
+        approversDict = FilterApprovers(approversDict, isCodeFreezePeriod);
+        if (!await IsApproved(mergeRequest, commit, approversDict))
         {
             return -1;
         }
@@ -51,13 +63,8 @@ public class App : IApp
         return 0;
     }
 
-    private async Task<bool> IsApproved(MergeRequest mergeRequest, Commit commit)
+    private async Task<bool> IsApproved(MergeRequest mergeRequest, Commit commit, Dictionary<string, ApproversDto> approversDict)
     {
-        var approversDict = ParseApprovers();
-        if (approversDict is null)
-        {
-            return false;
-        }
         var emojis = await _client.MergeRequests.GetAwardEmojisAsync(_settings.ProjectId, mergeRequest.Iid);
 
         var sb = new StringBuilder();
@@ -124,5 +131,18 @@ public class App : IApp
             Console.WriteLine($"Error while deserializing approvers: {ex}");
             return null;
         }
+    }
+
+    private Dictionary<string, ApproversDto> FilterApprovers(Dictionary<string, ApproversDto> approvers, bool isCodeFreezePeriod)
+    {
+        var result = new Dictionary<string, ApproversDto>();
+        foreach (var approversDto in approvers)
+        {
+            if (approversDto.Value.ForCodeFreeze == isCodeFreezePeriod)
+            {
+                result.Add(approversDto.Key, approversDto.Value);
+            }
+        }
+        return result;
     }
 }

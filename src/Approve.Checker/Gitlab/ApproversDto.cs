@@ -8,6 +8,7 @@ namespace Approve.Checker.Gitlab;
 
 public class ApproversDto
 {
+    public bool ForCodeFreeze { get; set; }
     public int CountApprovers { get; set; } = 1;
     public List<string> Users { get; set; } = new();
 }

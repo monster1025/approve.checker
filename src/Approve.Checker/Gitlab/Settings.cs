@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Approve.Checker.Gitlab
+﻿namespace Approve.Checker.Gitlab
 {
     public class Settings
     {
@@ -13,6 +7,7 @@ namespace Approve.Checker.Gitlab
         public string MrPath = Environment.GetEnvironmentVariable("CI_OPEN_MERGE_REQUESTS")!;
         public string ProjectId = Environment.GetEnvironmentVariable("CI_PROJECT_ID") ?? CheckAndThrow("CI_PROJECT_ID");
         public string Approvers = Environment.GetEnvironmentVariable("APPROVERS_FILEPATH") ?? CheckAndThrow("APPROVERS_FILEPATH");
+        public string ReleaseCodeFreeze = Environment.GetEnvironmentVariable("RELEASE_CODEFREEZE") ?? "false";
 
         private static string CheckAndThrow(string name)
         {
