@@ -7,104 +7,103 @@ using Newtonsoft.Json;
 
 #pragma warning disable CS8618
 
-namespace Approve.Checker.Gitlab.Dto
+namespace Approve.Checker.Gitlab.Dto;
+
+public sealed class CustomMergeRequest
 {
-    public sealed class CustomMergeRequest
-    {
-        [JsonProperty("iid")]
-        public int Iid { get; set; }
+    [JsonProperty("iid")]
+    public int Iid { get; set; }
 
-        [JsonProperty("id")]
-        public int Id { get; set; }
+    [JsonProperty("id")]
+    public int Id { get; set; }
 
-        [JsonProperty("created_at")]
-        public DateTime CreatedAt { get; set; }
+    [JsonProperty("created_at")]
+    public DateTime CreatedAt { get; set; }
 
-        [JsonProperty("updated_at")]
-        public DateTime UpdatedAt { get; set; }
+    [JsonProperty("updated_at")]
+    public DateTime UpdatedAt { get; set; }
 
-        [JsonProperty("labels")]
-        public List<string> Labels { get; } = new List<string>();
+    [JsonProperty("labels")]
+    public List<string> Labels { get; } = new List<string>();
 
-        [JsonProperty("source_branch")]
-        public string SourceBranch { get; set; }
+    [JsonProperty("source_branch")]
+    public string SourceBranch { get; set; }
 
-        [JsonProperty("downvotes")]
-        public int Downvotes { get; set; }
+    [JsonProperty("downvotes")]
+    public int Downvotes { get; set; }
 
-        [JsonProperty("author")]
-        public Assignee Author { get; set; }
+    [JsonProperty("author")]
+    public Assignee Author { get; set; }
 
-        [JsonProperty("assignee")]
-        public Assignee Assignee { get; set; }
+    [JsonProperty("assignee")]
+    public Assignee Assignee { get; set; }
 
-        [JsonProperty("description")]
-        public string Description { get; set; }
+    [JsonProperty("description")]
+    public string Description { get; set; }
 
-        [JsonProperty("force_remove_source_branch")]
-        public bool? ForceRemoveSourceBranch { get; set; }
+    [JsonProperty("force_remove_source_branch")]
+    public bool? ForceRemoveSourceBranch { get; set; }
 
-        [JsonProperty("milestone")]
-        public Milestone Milestone { get; set; }
+    [JsonProperty("milestone")]
+    public Milestone Milestone { get; set; }
 
-        [JsonProperty("merge_status")]
-        public MergeStatus Status { get; set; }
+    [JsonProperty("merge_status")]
+    public MergeStatus Status { get; set; }
 
-        [JsonProperty("merge_commit_sha")]
-        public string MergeCommitSha { get; set; }
+    [JsonProperty("merge_commit_sha")]
+    public string MergeCommitSha { get; set; }
 
-        [JsonProperty("merge_when_pipeline_succeeds")]
-        public bool MergeWhenPipelineSucceeds { get; set; }
+    [JsonProperty("merge_when_pipeline_succeeds")]
+    public bool MergeWhenPipelineSucceeds { get; set; }
 
-        [JsonProperty("sha")]
-        public string Sha { get; set; }
+    [JsonProperty("sha")]
+    public string Sha { get; set; }
 
-        [JsonProperty("project_id")]
-        public string ProjectId { get; set; }
+    [JsonProperty("project_id")]
+    public string ProjectId { get; set; }
 
-        [JsonProperty("should_remove_source_branch")]
-        public bool? ShouldRemoveSourceBranch { get; set; }
+    [JsonProperty("should_remove_source_branch")]
+    public bool? ShouldRemoveSourceBranch { get; set; }
 
-        [JsonProperty("target_project_id")]
-        public int TargetProjectId { get; set; }
+    [JsonProperty("target_project_id")]
+    public int TargetProjectId { get; set; }
 
-        [JsonProperty("state")]
-        public MergeRequestState State { get; set; }
+    [JsonProperty("state")]
+    public MergeRequestState State { get; set; }
 
-        [JsonProperty("source_project_id")]
-        public int SourceProjectId { get; set; }
+    [JsonProperty("source_project_id")]
+    public int SourceProjectId { get; set; }
 
-        [JsonProperty("closed_at")]
-        public DateTime? ClosedAt { get; set; }
+    [JsonProperty("closed_at")]
+    public DateTime? ClosedAt { get; set; }
 
-        [JsonProperty("closed_by")]
-        public ClosedBy ClosedBy { get; set; }
+    [JsonProperty("closed_by")]
+    public ClosedBy ClosedBy { get; set; }
 
-        [JsonProperty("target_branch")]
-        public string TargetBranch { get; set; }
+    [JsonProperty("target_branch")]
+    public string TargetBranch { get; set; }
 
-        [JsonProperty("upvotes")]
-        public int Upvotes { get; set; }
+    [JsonProperty("upvotes")]
+    public int Upvotes { get; set; }
 
-        [JsonProperty("web_url")]
-        public string WebUrl { get; set; }
+    [JsonProperty("web_url")]
+    public string WebUrl { get; set; }
 
-        [JsonProperty("title")]
-        public string Title { get; set; }
+    [JsonProperty("title")]
+    public string Title { get; set; }
 
-        [JsonProperty("user_notes_count")]
-        public int UserNotesCount { get; set; }
+    [JsonProperty("user_notes_count")]
+    public int UserNotesCount { get; set; }
 
-        [JsonProperty("work_in_progress")]
-        public bool WorkInProgress { get; set; }
+    [JsonProperty("work_in_progress")]
+    public bool WorkInProgress { get; set; }
 
-        [JsonProperty("time_stats")]
-        public MergeRequestTimeStatistic TimeStats { get; set; }
+    [JsonProperty("time_stats")]
+    public MergeRequestTimeStatistic TimeStats { get; set; }
 
-        [JsonProperty("pipeline")]
-        public Pipeline Pipeline { get; set; }
+    [JsonProperty("pipeline")]
+    public Pipeline Pipeline { get; set; }
 
-        [JsonProperty("merged_by")]
-        public Assignee MergedBy { get; set; }
-    }
+    [JsonProperty("merged_by")]
+    public Assignee MergedBy { get; set; }
 }
