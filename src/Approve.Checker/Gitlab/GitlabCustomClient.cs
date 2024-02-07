@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Json;
 using System.Text;
+using Approve.Checker.Gitlab.Dto;
 using GitLabApiClient.Models.Job.Responses;
 using GitLabApiClient.Models.MergeRequests.Responses;
 using Newtonsoft.Json;
@@ -54,7 +55,7 @@ public class GitlabCustomClient : IGitlabCustomClient
         return responseObj!;
     }
 
-    public async Task<MergeRequest[]> GetMergeRequestsByTargetBranch(string targetBranch)
+    public async Task<CustomMergeRequest[]> GetMergeRequestsByTargetBranch(string targetBranch)
     {
         var request = new HttpRequestMessage(HttpMethod.Get, $"{_url}/api/v4/merge_requests?target_branch={targetBranch}&scope=all&per_page=1000");
         request.Headers.Add("PRIVATE-TOKEN", _token);
@@ -62,7 +63,7 @@ public class GitlabCustomClient : IGitlabCustomClient
         response.EnsureSuccessStatusCode();
 
         var responseStr = await response.Content.ReadAsStringAsync();
-        var responseObj = JsonConvert.DeserializeObject<MergeRequest[]>(responseStr)!;
+        var responseObj = JsonConvert.DeserializeObject<CustomMergeRequest[]>(responseStr)!;
         return responseObj;
     }
 

@@ -1,4 +1,5 @@
-﻿using GitLabApiClient.Models.Job.Responses;
+﻿using Approve.Checker.Gitlab.Dto;
+using GitLabApiClient.Models.Job.Responses;
 using GitLabApiClient.Models.MergeRequests.Responses;
 using ReleaseScripts.ExternalSystems.Gitlab.CustomClient.Dto;
 using ReleaseScripts.ExternalSystems.Gitlab.CustomClient.Dto.ApprovalState;
@@ -10,7 +11,7 @@ public interface IGitlabCustomClient
     Task<Reviewers[]> GetReviewers(string projectId, int Iid);
     Task<ApprovalStateResponse> GetApprovals(string projectId, int Iid);
     Task<ApprovalStateResponse> GetDiscussions(string projectId, int Iid);
-    Task<MergeRequest[]> GetMergeRequestsByTargetBranch(string targetBranch);
+    Task<CustomMergeRequest[]> GetMergeRequestsByTargetBranch(string targetBranch);
     Task<Job[]> GetPipelineTriggers(string projectId, int pipelineId);
     Task RestartJob(string projectId, int failedJobId);
     Task<MergeRequest[]> GetMergeRequestsBySourceBranch(string targetBranch);
