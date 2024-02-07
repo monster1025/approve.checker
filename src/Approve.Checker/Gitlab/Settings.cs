@@ -12,7 +12,7 @@ namespace Approve.Checker.Gitlab
         public string GitlabToken = Environment.GetEnvironmentVariable("GITLAB_TOKEN") ?? CheckAndThrow("GITLAB_TOKEN");
         public string MrPath = Environment.GetEnvironmentVariable("CI_OPEN_MERGE_REQUESTS")!;
         public string ProjectId = Environment.GetEnvironmentVariable("CI_PROJECT_ID") ?? CheckAndThrow("CI_PROJECT_ID");
-        public string Approvers = Environment.GetEnvironmentVariable("APPROVERS_FILEPATH ") ?? CheckAndThrow("APPROVERS_FILEPATH");
+        public string Approvers = Environment.GetEnvironmentVariable("APPROVERS_FILEPATH") ?? CheckAndThrow("APPROVERS_FILEPATH");
 
         private static string CheckAndThrow(string name)
         {
