@@ -1,15 +1,11 @@
 ﻿using System.Collections;
+using Approve.Checker;
 
 internal static class Program
 {
-    internal static Task<int> Main(string[] args)
+    internal static async Task<int> Main(string[] args)
     {
-
-        foreach (DictionaryEntry e in System.Environment.GetEnvironmentVariables())
-        {
-            Console.WriteLine(e.Key + " = " + e.Value);
-        }
-
-        return Task.FromResult(-1);
+        var app = new App();
+        return await app.Run();
     }
 }
