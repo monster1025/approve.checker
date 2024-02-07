@@ -23,11 +23,6 @@ public class App : IApp
             ServerCertificateCustomValidationCallback = (_, _, _, _) => true
         };
         _settings = new Settings();
-        if (string.IsNullOrEmpty(_settings.GitlabUrl))
-        {
-            Console.WriteLine("CI_SERVER_URL is not defined.");
-            return;
-        }
         _client = new GitLabClient(_settings.GitlabUrl, _settings.GitlabToken, httpHandler);
         _customClient = new GitlabCustomClient(_settings.GitlabUrl, _settings.GitlabToken, httpHandler);
     }
