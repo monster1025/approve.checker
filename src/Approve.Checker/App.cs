@@ -91,7 +91,14 @@ public class App : IApp
             if (emoji.UpdatedAt <= commit.CommittedDate)
             {
                 sb.AppendLine($" - Удален {emoji.Name} от {emoji.User.Username} ({emoji.UpdatedAt}), т.к. после него были коммиты ({commit.CommittedDate}).");
-                await _customClient.DeleteEmoji(mergeRequest.ProjectId, mergeRequest.Iid, emoji.Id);
+                try
+                {
+                    await _customClient.DeleteEmoji(mergeRequest.ProjectId, mergeRequest.Iid, emoji.Id);
+                }
+                catch (HttpRequestException ex) when(ex.Message.Contains("Response status code does not indicate success"))
+                {
+                    Console.WriteLine(ex);
+                }
             }
         }
         if (sb.Length > 0)
