@@ -45,7 +45,12 @@ public class App : IApp
             return -1;
         }
 
-        var mrId = int.Parse(_settings.MrPath.Split('!')[1]);
+        var mrIdStr = _settings.MrPath.Split('!')[1];
+        if (mrIdStr.Contains(","))
+        {
+            mrIdStr = mrIdStr.Split(',')[0];
+        }
+        var mrId = int.Parse(mrIdStr);
         
         var mergeRequest = await _client.MergeRequests.GetAsync(_settings.ProjectId, mrId);
         var commit = await _client.Commits.GetAsync(_settings.ProjectId, mergeRequest.Sha);
