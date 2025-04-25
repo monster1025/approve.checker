@@ -54,6 +54,15 @@ public class App : IApp
         
         var mergeRequest = await _client.MergeRequests.GetAsync(_settings.ProjectId, mrId);
         var commit = await _client.Commits.GetAsync(_settings.ProjectId, mergeRequest.Sha);
+        if (mergeRequest.Labels.Contains("renovate") && 
+            string.Equals(mergeRequest.Author.Username, "kislovdm", StringComparison.InvariantCultureIgnoreCase))
+        {
+            var message = $"Одобряю MR renovate без аппрува.";
+
+            await _client.MergeRequests.CreateNoteAsync(mergeRequest.ProjectId, mergeRequest.Iid,
+                new CreateMergeRequestNoteRequest(message));
+            return 0;
+        }
 
         var mrsToSameRelease = await _customClient.GetMergeRequestsByTargetBranch(mergeRequest.TargetBranch);
         var sameMrs = mrsToSameRelease.Where(f => f.SourceBranch == mergeRequest.SourceBranch && 
